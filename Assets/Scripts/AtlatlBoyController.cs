@@ -8,7 +8,7 @@ namespace joelthebergman
     {
         
         [SerializeField]
-        private new Rigidbody rigidbody;
+        private Rigidbody rigidbody;
         [Header("Stats")]
         [SerializeField]
         private float maxHealth;
@@ -45,26 +45,87 @@ namespace joelthebergman
         private float coldDamage;
 
         private Vector3 inputVector;
+        public System.Action Initialized;
 
+        private bool isMoving;
+        private bool isSprinting;
+        void Awake()
+        {
+            currentHealth = maxHealth;
+            currentStamina = maxStamina;
+            currentHunger = maxHunger;
+            currentCold = maxCold;
+            if(Initialized != null)
+            {
+                Initialized();
+            }
+        }
 
-        void Update()
+        void FixedUpdate()
         {
             Move();
+            StatTick();
+
         }
 
         private void Move()
         {
             float x = Input.GetAxis("Horizontal");
             float y = Input.GetAxis("Vertical");
-
-            inputVector = new Vector3(x, y, 0f);
+            float yRotation = Input.GetAxis("Turning");
+            inputVector = Vector3.Normalize(new Vector3(x, 0f, y));
             float speedMultiplier = baseMoveSpeed;
-            if (Input.GetKey(KeyCode.LeftShift))
+            isSprinting = false;
+            if (Input.GetButton("Fire3"))
             {
                 speedMultiplier *= runMoveSpeedMultiplier;
+                isSprinting = true;
             }
+            isMoving = inputVector != Vector3.zero ? true:false;
             Vector3 speed = inputVector * speedMultiplier;
-            rigidbody.AddForce(speed);
+            Vector3 velocity = transform.forward * speed.z;
+            velocity += transform.right * speed.x;
+            rigidbody.velocity = velocity;
+            rigidbody.angularVelocity = new Vector3(0f, yRotation);
+        }
+
+        private void StatTick()
+        {
+            if (isMoving)
+            {
+                currentStamina -= staminaTickRate;
+                if (isSprinting)
+                {
+                    currentStamina -= staminaTickRate;
+                }
+                if(currentStamina <= 0)
+                {
+                    currentStamina = 0;
+                    currentHunger -= hungerTickRate;
+                }
+                currentHunger -= hungerTickRate;
+
+            }
+            else
+            {
+                currentStamina += staminaTickRate;
+                if (currentStamina >= maxStamina)
+                {
+                    currentStamina = maxStamina;
+                }
+            }
+            currentHunger -= hungerTickRate;
+            if(currentHunger <= 0)
+            {
+                currentHunger = 0;
+                currentHealth -= hungerDamage;
+            }
+            if(currentHealth <= 0)
+            {
+                currentHealth = 0;
+                Debug.Log("YOU DIED!");
+                Debug.Break();
+            }
 
         }
     }
