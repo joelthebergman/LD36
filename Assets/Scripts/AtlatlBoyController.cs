@@ -45,20 +45,23 @@ namespace joelthebergman
         private float coldDamage;
 
         private Vector3 inputVector;
-        public System.Action Initialized;
 
         private bool isMoving;
         private bool isSprinting;
+
+        [SerializeField]
+        private Inventory inventory;
+        public Inventory Inventory { get { return inventory; } }
+        [SerializeField]
+        private UIManager uiManager;
+
         void Awake()
         {
             currentHealth = maxHealth;
             currentStamina = maxStamina;
             currentHunger = maxHunger;
             currentCold = maxCold;
-            if(Initialized != null)
-            {
-                Initialized();
-            }
+            uiManager.Setup();
         }
 
         void FixedUpdate()
@@ -76,7 +79,7 @@ namespace joelthebergman
             inputVector = Vector3.Normalize(new Vector3(x, 0f, y));
             float speedMultiplier = baseMoveSpeed;
             isSprinting = false;
-            if (Input.GetButton("Fire3"))
+            if (Input.GetButton("Run"))
             {
                 speedMultiplier *= runMoveSpeedMultiplier;
                 isSprinting = true;
@@ -127,6 +130,11 @@ namespace joelthebergman
                 Debug.Break();
             }
 
+        }
+
+        public void ExertStamina(float amount)
+        {
+            currentStamina -= amount;
         }
     }
 

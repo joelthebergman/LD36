@@ -13,18 +13,9 @@ public class UIManager : MonoBehaviour
     private Slider hungerBar;
     [SerializeField]
     private Slider coldBar;
-
     [SerializeField]
     private AtlatlBoyController atlatlBoyController;
 
-   void OnEnable()
-    {
-        atlatlBoyController.Initialized += OnAtlatlBoyInitialized;
-    }
-    void OnDisable()
-    {
-        atlatlBoyController.Initialized -= OnAtlatlBoyInitialized;
-    }
     void Update()
     {
         healthBar.value = atlatlBoyController.CurrentHealth;
@@ -33,7 +24,7 @@ public class UIManager : MonoBehaviour
         coldBar.value = atlatlBoyController.CurrentCold;
     }
 
-    void OnAtlatlBoyInitialized()
+    public void Setup()
     {
         healthBar.maxValue = atlatlBoyController.CurrentHealth;
         staminaBar.maxValue = atlatlBoyController.CurrentStamina;
