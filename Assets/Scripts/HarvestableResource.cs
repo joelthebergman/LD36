@@ -14,12 +14,15 @@ namespace joelthebergman
         private Transform spawn;
         private bool canBeHarvested;
         private AtlatlBoyController controller;
+        [SerializeField]
+        private GameObject harvestPrompt;
         void OnTriggerStay(Collider other)
         {
             controller = other.attachedRigidbody.GetComponent<AtlatlBoyController>();
             if (controller != null)
             {
                 canBeHarvested = true;
+                harvestPrompt.SetActive(true);
             }
         }
         void OnTriggerExit(Collider other)
@@ -27,6 +30,7 @@ namespace joelthebergman
             if (other.attachedRigidbody.GetComponent<AtlatlBoyController>() != null)
             {
                 canBeHarvested = false;
+                harvestPrompt.SetActive(false);
             }
         }
 

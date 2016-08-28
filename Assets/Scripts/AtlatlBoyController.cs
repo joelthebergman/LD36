@@ -61,6 +61,7 @@ namespace joelthebergman
         [SerializeField]
         private Transform characterTransform;
         private bool rotatingCharacter;
+        private bool isAlive = true;
 
         void Awake()
         {
@@ -73,8 +74,12 @@ namespace joelthebergman
 
         void FixedUpdate()
         {
-            Move();
-            StatTick();
+            if (isAlive)
+            {
+                Move();
+                StatTick();
+            }
+            
 
         }
 
@@ -147,7 +152,9 @@ namespace joelthebergman
             {
                 currentHealth = 0;
                 Debug.Log("YOU DIED!");
-                Debug.Break();
+                uiManager.GameOver();
+                isAlive = false;
+                //Debug.Break();
             }
 
         }

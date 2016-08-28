@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using joelthebergman;
 public class UIManager : MonoBehaviour 
@@ -15,7 +16,8 @@ public class UIManager : MonoBehaviour
     private Slider coldBar;
     [SerializeField]
     private AtlatlBoyController atlatlBoyController;
-
+    [SerializeField]
+    private GameObject gameOverScreen;
     void Update()
     {
         healthBar.value = atlatlBoyController.CurrentHealth;
@@ -31,5 +33,16 @@ public class UIManager : MonoBehaviour
         hungerBar.maxValue = atlatlBoyController.CurrentHunger;
         coldBar.maxValue = atlatlBoyController.CurrentCold;
     }
-
+    public void GameOver()
+    {
+        gameOverScreen.SetActive(true);
+    }
+    public void Quit()
+    {
+        Application.Quit();
+    }
+    public void TryAgain()
+    {
+        SceneManager.LoadScene("Scene");
+    }
 }

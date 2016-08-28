@@ -11,12 +11,15 @@ namespace joelthebergman
 
         private AtlatlBoyController controller;
         private bool canCraft;
+        [SerializeField]
+        private GameObject craftPrompt;
         void OnTriggerStay(Collider other)
         {
             controller = other.attachedRigidbody.GetComponent<AtlatlBoyController>();
             if (controller != null)
             {
                 canCraft = true;
+                craftPrompt.SetActive(true);
             }
         }
         void OnTriggerExit(Collider other)
@@ -24,6 +27,7 @@ namespace joelthebergman
             if (other.attachedRigidbody.GetComponent<AtlatlBoyController>() != null)
             {
                 canCraft = false;
+                craftPrompt.SetActive(false);
             }
         }
 
@@ -31,7 +35,7 @@ namespace joelthebergman
         {
             if (canCraft)
             {
-                if (Input.GetButtonDown("Harvest"))
+                if (Input.GetButtonDown("Craft"))
                 {
                     if (controller != null)
                     {
