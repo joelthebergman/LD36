@@ -54,6 +54,13 @@ namespace joelthebergman
         public Inventory Inventory { get { return inventory; } }
         [SerializeField]
         private UIManager uiManager;
+        [SerializeField]
+        private Camera camera;
+        [SerializeField]
+        private Transform cameraGimbal;
+        [SerializeField]
+        private Transform characterTransform;
+        private bool rotatingCharacter;
 
         void Awake()
         {
@@ -85,11 +92,24 @@ namespace joelthebergman
                 isSprinting = true;
             }
             isMoving = inputVector != Vector3.zero ? true:false;
+       
             Vector3 speed = inputVector * speedMultiplier;
-            Vector3 velocity = transform.forward * speed.z;
-            velocity += transform.right * speed.x;
+            Vector3 velocity = characterTransform.forward * speed.z;
+            //velocity += cameraGimbal.right * speed.x;
+            velocity += -transform.up;
             rigidbody.velocity = velocity;
-            rigidbody.angularVelocity = new Vector3(0f, yRotation);
+            cameraGimbal.Rotate(new Vector3(0f, yRotation * 2f));
+
+            if (isMoving)
+            {
+                if (!rotatingCharacter)
+                {
+                    StartCoroutine(RotateCharacterToCameraGimbalForward());
+                }
+            }
+
+            transform.Rotate(0f, inputVector.x * 2f, 0f);
+            //rigidbody.angularVelocity = new Vector3(0f, yRotation);
         }
 
         private void StatTick()
@@ -135,6 +155,23 @@ namespace joelthebergman
         public void ExertStamina(float amount)
         {
             currentStamina -= amount;
+        }
+
+        private IEnumerator RotateCharacterToCameraGimbalForward()
+        {
+            yield return null;
+            float rotationDuration = 0.5f;
+            float currentTime = 0f;
+            Quaternion original = characterTransform.rotation;
+            while (currentTime < rotationDuration)
+            {
+                characterTransform.rotation = Quaternion.Lerp(original, cameraGimbal.rotation, currentTime/rotationDuration);
+                currentTime += Time.deltaTime;
+                yield return null;
+            }
+
+            rotatingCharacter = false;
+            yield return null;
         }
     }
 

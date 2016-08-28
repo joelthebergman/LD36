@@ -9,10 +9,12 @@ namespace joelthebergman
         [SerializeField]
         private float harvestStaminaCost;
         [SerializeField]
-        private ResourceData resourceData;
+        private PickupableResource resource;
+        [SerializeField]
+        private Transform spawn;
         private bool canBeHarvested;
         private AtlatlBoyController controller;
-        void OnTriggerEnter(Collider other)
+        void OnTriggerStay(Collider other)
         {
             controller = other.attachedRigidbody.GetComponent<AtlatlBoyController>();
             if (controller != null)
@@ -34,8 +36,15 @@ namespace joelthebergman
             {
                 if (Input.GetButtonDown("Harvest"))
                 {
-                    Debug.Log("Harvested " + resourceData.name);
-                    controller.ExertStamina(harvestStaminaCost);
+                   
+                    if(controller != null && controller.CurrentStamina >= harvestStaminaCost)
+                    {
+                        Debug.Log("Harvested " + resource.name);
+                        controller.ExertStamina(harvestStaminaCost);
+                        Vector3 randomSpawn = transform.position + ( Random.insideUnitSphere );
+                        randomSpawn.y = spawn.position.y;
+                        Instantiate(resource, randomSpawn, Quaternion.identity);
+                    }
 
                 }
             }
