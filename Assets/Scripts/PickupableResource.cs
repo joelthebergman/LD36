@@ -7,6 +7,7 @@ namespace joelthebergman
     {
         [SerializeField]
         private ResourceData resourceData;
+        public ResourceData ResourceData { get { return resourceData; } }
 
         void OnTriggerEnter(Collider other)
         {
