@@ -15,20 +15,31 @@ namespace joelthebergman
         private GameObject craftPrompt;
         void OnTriggerStay(Collider other)
         {
-            controller = other.attachedRigidbody.GetComponent<AtlatlBoyController>();
-            if (controller != null)
+            if(other.attachedRigidbody != null)
             {
-                canCraft = true;
-                craftPrompt.SetActive(true);
+                AtlatlBoyController tempController = other.attachedRigidbody.GetComponent<AtlatlBoyController>();
+
+                if (tempController != null)
+                {
+                    controller = tempController;
+                    canCraft = true;
+                    craftPrompt.SetActive(true);
+                }
             }
+            
         }
         void OnTriggerExit(Collider other)
         {
-            if (other.attachedRigidbody.GetComponent<AtlatlBoyController>() != null)
+            if (other.attachedRigidbody!= null)
             {
-                canCraft = false;
-                craftPrompt.SetActive(false);
+                if (controller != null && other.attachedRigidbody.gameObject == controller.gameObject)
+                {
+                    controller = null;
+                    canCraft = false;
+                    craftPrompt.SetActive(false);
+                }
             }
+           
         }
 
         void Update()

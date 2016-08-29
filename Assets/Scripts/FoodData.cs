@@ -14,10 +14,14 @@ namespace joelthebergman
         private float staminaRecoveryAmount;
         public float StaminaRecoveryAmount { get { return staminaRecoveryAmount; } }
         [SerializeField]
+        private float hungerRecoveryAmount;
+        public float HungerRecoveryAmount { get { return hungerRecoveryAmount; } }
+        [SerializeField]
         private float coldRecoveryAmount;
         public float ColdRecoveryAmount { get { return coldRecoveryAmount; } }
         
-       
+
+
     }
 }
 

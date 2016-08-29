@@ -3,18 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 namespace joelthebergman
 {
-    public class PickupableResource : MonoBehaviour
+    public class Food : MonoBehaviour
     {
         [SerializeField]
-        private ResourceData resourceData;
-        public ResourceData ResourceData { get { return resourceData; } }
+        private FoodData data;
+
         private AtlatlBoyController controller;
         private bool inRange;
         [SerializeField]
         private GameObject buttonPrompt;
         void OnTriggerEnter(Collider other)
         {
-           
+
             if (other.attachedRigidbody)
             {
                 AtlatlBoyController tempController = other.attachedRigidbody.GetComponent<AtlatlBoyController>();
@@ -31,7 +31,7 @@ namespace joelthebergman
         {
             if (other.attachedRigidbody)
             {
-                
+
                 if (controller != null && other.attachedRigidbody.gameObject == controller.gameObject)
                 {
                     controller = null;
@@ -39,7 +39,7 @@ namespace joelthebergman
                     buttonPrompt.SetActive(false);
                 }
             }
-            
+
         }
         void Update()
         {
@@ -47,13 +47,12 @@ namespace joelthebergman
             {
                 if (Input.GetButton("PickUp"))
                 {
-                    controller.Inventory.AddItem(this);
+                    controller.ConsumeFood(data);
                     gameObject.SetActive(false);
                 }
             }
         }
-
-
     }
+
 }
 

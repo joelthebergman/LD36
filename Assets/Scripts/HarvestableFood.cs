@@ -4,12 +4,14 @@ using System.Collections.Generic;
 
 namespace joelthebergman
 {
-    public class HarvestableResource : MonoBehaviour
+    public class HarvestableFood : MonoBehaviour
     {
         [SerializeField]
         private float harvestStaminaCost;
         [SerializeField]
-        private PickupableResource resource;
+        private float harvestHealth;
+        [SerializeField]
+        private Food resource;
         [SerializeField]
         private Transform spawn;
         private bool canBeHarvested;
@@ -18,10 +20,10 @@ namespace joelthebergman
         private GameObject harvestPrompt;
         void OnTriggerStay(Collider other)
         {
-            if(other.attachedRigidbody != null)
+            if (other.attachedRigidbody != null)
             {
                 AtlatlBoyController tempController = other.attachedRigidbody.GetComponent<AtlatlBoyController>();
-                
+
                 if (tempController != null)
                 {
                     controller = tempController;
@@ -29,11 +31,11 @@ namespace joelthebergman
                     harvestPrompt.SetActive(true);
                 }
             }
-           
+
         }
         void OnTriggerExit(Collider other)
         {
-            if(other.attachedRigidbody != null)
+            if (other.attachedRigidbody != null)
             {
                 if (controller != null && other.attachedRigidbody.gameObject == controller.gameObject)
                 {
@@ -41,7 +43,7 @@ namespace joelthebergman
                     harvestPrompt.SetActive(false);
                 }
             }
-            
+
         }
 
         void Update()
@@ -50,12 +52,13 @@ namespace joelthebergman
             {
                 if (Input.GetButtonDown("Harvest"))
                 {
-                   
-                    if(controller != null && controller.CurrentStamina >= harvestStaminaCost)
+
+                    if (controller != null && controller.CurrentStamina >= harvestStaminaCost)
                     {
-                        Debug.Log("Harvested " + resource.name);
+                        Debug.Log("Hunted " + resource.name);
                         controller.ExertStamina(harvestStaminaCost);
-                        Vector3 randomSpawn = transform.position + ( Random.insideUnitSphere );
+                        controller.TakeDamate(harvestHealth);
+                        Vector3 randomSpawn = transform.position + (Random.insideUnitSphere * 2);
                         randomSpawn.y = spawn.position.y;
                         Instantiate(resource, randomSpawn, Quaternion.identity);
                     }

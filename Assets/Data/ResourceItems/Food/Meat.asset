@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: Meat
   m_EditorClassIdentifier: 
   resourceType: 4
-  healthRecoveryAmount: 0
-  staminaRecoveryAmount: 0
+  healthRecoveryAmount: 4
+  staminaRecoveryAmount: 2
+  hungerRecoveryAmount: 6
   coldRecoveryAmount: 0

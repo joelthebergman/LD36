@@ -62,7 +62,8 @@ namespace joelthebergman
         private Transform characterTransform;
         private bool rotatingCharacter;
         private bool isAlive = true;
-
+        [SerializeField]
+        private Animator animatorController;
         void Awake()
         {
             currentHealth = maxHealth;
@@ -114,6 +115,7 @@ namespace joelthebergman
             }
 
             transform.Rotate(0f, inputVector.x * 2f, 0f);
+            animatorController.SetFloat("Speed", y * speedMultiplier);
             //rigidbody.angularVelocity = new Vector3(0f, yRotation);
         }
 
@@ -154,6 +156,7 @@ namespace joelthebergman
                 Debug.Log("YOU DIED!");
                 uiManager.GameOver();
                 isAlive = false;
+                animatorController.enabled = false;
                 //Debug.Break();
             }
 
@@ -162,6 +165,10 @@ namespace joelthebergman
         public void ExertStamina(float amount)
         {
             currentStamina -= amount;
+        }
+        public void TakeDamate(float amount)
+        {
+            currentHealth -= amount;
         }
 
         private IEnumerator RotateCharacterToCameraGimbalForward()
@@ -179,6 +186,25 @@ namespace joelthebergman
 
             rotatingCharacter = false;
             yield return null;
+        }
+
+        public void ConsumeFood(FoodData data)
+        {
+            currentStamina += data.StaminaRecoveryAmount;
+            currentHealth += data.HealthRecoveyAmount;
+            currentHunger += data.HungerRecoveryAmount;
+            if(currentHealth > maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
+            if (currentStamina > maxStamina)
+            {
+                currentStamina = maxStamina;
+            }
+            if (currentHunger > maxHunger )
+            {
+                currentHunger = maxHunger;
+            }
         }
     }
 

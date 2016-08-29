@@ -45,6 +45,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1000011954461524
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000012200931224}
+  - 136: {fileID: 136000012083226178}
+  m_Layer: 9
+  m_Name: Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1000012353530024
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,7 +72,6 @@ GameObject:
   - 193: {fileID: 193000011967216564}
   - 33: {fileID: 33000011363228302}
   - 23: {fileID: 23000014124247846}
-  - 136: {fileID: 136000011883484102}
   - 136: {fileID: 136000010770662744}
   - 114: {fileID: 114000012595274662}
   m_Layer: 0
@@ -97,6 +112,7 @@ Transform:
   m_Children:
   - {fileID: 4000011006870652}
   - {fileID: 224000013107017746}
+  - {fileID: 4000012200931224}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &4000011006870652
@@ -112,6 +128,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4000010701874716}
   m_RootOrder: 0
+--- !u!4 &4000012200931224
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011954461524}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 4000010701874716}
+  m_RootOrder: 2
 --- !u!23 &23000014124247846
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -272,12 +301,12 @@ CapsuleCollider:
   m_Height: 8.880409
   m_Direction: 1
   m_Center: {x: 0.16043317, y: 4.4402046, z: -0.60875356}
---- !u!136 &136000011883484102
+--- !u!136 &136000012083226178
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012353530024}
+  m_GameObject: {fileID: 1000011954461524}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
